@@ -1,13 +1,17 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flash_chat/screens/login_screen.dart';
 import 'package:flash_chat/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flash_chat/components/rounded_buttons.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  static String id='welcome_screen';
+  static String id = 'welcome_screen';
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
-class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin {
+
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation animation;
 
@@ -15,19 +19,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
   void initState() {
     // TODO: implement initState
     super.initState();
-    controller=AnimationController(
-        duration: Duration(seconds: 1),
-        vsync: this,
+    controller = AnimationController(
+      duration: Duration(seconds: 1),
+      vsync: this,
     );
 
-    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white).animate(controller);
+    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
+        .animate(controller);
 
     controller.forward();
 
     controller.addListener(() {
-      setState(() {
-      });
-      print(animation.value);
+      setState(() {});
     });
   }
 
@@ -35,8 +38,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
   void dispose() {
     controller.dispose();
     super.dispose();
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,54 +59,41 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                     height: 70.0,
                   ),
                 ),
-                Text(
-                  'Flash Chat',
-                  style: TextStyle(
-                    fontSize: 45.0,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.black54,
-                  ),
+                AnimatedTextKit(
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                      'Flash Chat',
+                      textStyle: TextStyle(
+                        fontSize: 45.0,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black54,
+                      ),
+                      speed: const Duration(milliseconds: 100),
+                    ),
+                  ],
+                  totalRepeatCount: 4,
+                  pause: const Duration(milliseconds: 1000),
+                  displayFullTextOnTap: true,
+                  stopPauseOnTap: true,
                 ),
               ],
             ),
             SizedBox(
               height: 48.0,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                elevation: 5.0,
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, LoginScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Log In',
-                  ),
-                ),
-              ),
+            RoundedButton(
+              title: 'Log in',
+              color: Colors.blueAccent,
+              onPressed: () {
+                Navigator.pushNamed(context, LoginScreen.id);
+              },
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, RegistrationScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Register',
-                  ),
-                ),
-              ),
+            RoundedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, RegistrationScreen.id);
+              },
+              color: Colors.lightBlueAccent,
+              title: 'Register',
             ),
           ],
         ),
